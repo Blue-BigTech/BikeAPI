@@ -6,8 +6,7 @@ const path = require('path')
 const app = express();
 app.set('port', process.env.PORT || 3000)
 
-// Where we will keep books
-let books = [];
+const apiRouter = require('./api/index');
 
 app.use(cors());
 app.use(express.static('public'))
@@ -22,6 +21,8 @@ app.use(bodyParser.urlencoded({
   })
 )
 app.use(bodyParser.json());
+
+app.use("/api", apiRouter)
 app.get('/', (req, res) => {
   res.render('index')
 })
