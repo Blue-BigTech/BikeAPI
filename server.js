@@ -7,7 +7,7 @@ const path = require('path')
 const app = express();
 app.set('port', process.env.PORT || 3000)
 
-const apiRouter = require('./api/index');
+const apiRouter = require('./api/routes/index');
 
 app.use(cors());
 app.use(express.static('public'))
