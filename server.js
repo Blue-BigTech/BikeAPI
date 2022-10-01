@@ -1,7 +1,8 @@
 require('dotenv-safe').config()
 const express = require('express')
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const bodyParser = require('body-parser')
+const compression = require('compression')
+const cors = require('cors')
 const path = require('path')
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({
   })
 )
 app.use(bodyParser.json());
+app.use(compression());
 
 app.use("/api", apiRouter)
 app.get('/', (req, res) => {
