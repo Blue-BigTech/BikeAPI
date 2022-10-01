@@ -14,15 +14,18 @@
     "@maticnetwork/maticjs": "^3.5.0",
     "@maticnetwork/maticjs-web3": "^1.0.2",
     "@truffle/hdwallet-provider": "^2.0.16",
+    "bn.js": "^5.2.1",
     "body-parser": "^1.20.0",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "dotenv-safe": "^8.2.0",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "express-validator": "^6.14.2",
     "net": "^1.0.2",
     "path": "^0.12.7",
-    "trim-request": "^1.0.6"
+    "trim-request": "^1.0.6",
+    "web3": "^1.8.0"
   }
 }

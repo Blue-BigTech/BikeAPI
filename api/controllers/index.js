@@ -1,79 +1,35 @@
 const fs = require('fs');
 const { matchedData } = require('express-validator')
-const { POSClient, use } = require('@maticnetwork/maticjs')
-const { Web3ClientPlugin } = require('@maticnetwork/maticjs-web3')
-const HDWalletProvider = require('@truffle/hdwallet-provider')
+const { pos } = require('../../config')
+const { getPOSClient, to } = require('../utils/POSClient')
 
-use(Web3ClientPlugin)
+const transferERC20 = async () => {
+  const client = await getPOSClient();
+  const erc20Token = client.erc20(pos.parent.erc20, true);
 
-const privateKey = process.env.PRIVATE_KEY;
-const childRPC = process.env.CHILD_RPC;
-const mainRPC = process.env.MAIN_RPC;
-const contractAddress = process.env.CONTRACT_ADDR;
-const coinbaseAddress = process.env.COINBASE_ADDR;
+  const result = await erc20Token.transfer(100, to, {
+      gasPrice: '30000000000',
+  });
+
+  const txHash = await result.getTransactionHash();
+  console.log("txHash", txHash);
+  const receipt = await result.getReceipt();
+  console.log("receipt", receipt);
+
+}
 
 const transfer = async (req, res) => {
   const data = matchedData(req)
   // const rootPath = __dirname.substring(0, __dirname.indexOf('api'));
   // const abi = fs.readFileSync('abi/AKYT.json','utf-8')
 
-  const posClient = new POSClient();
-  (async () => {
-    await posClient.init({
-      network: 'testnet',
-      version: 'mumbai',
-      parent: {
-        provider: new HDWalletProvider(privateKey, mainRPC),
-        defaultConfig: {
-          from : coinbaseAddress
-        }
-      },
-      child: {
-        provider: new HDWalletProvider(privateKey, childRPC),
-        defaultConfig: {
-          from : coinbaseAddress
-        }
-      }
-    });
-  })();
+  transferERC20().then(() => {
+  }).catch(err => {
+      console.error("err", err);
+  }).finally(_ => {
+      process.exit(0);
+  })
   
-  // const erc20token = posClient.erc20(contractAddress,true);
-  // const erc20ChildToken = posClient.erc20(contractAddress);
-  // const balance = await erc20ChildToken.getBalance(coinbaseAddress)
-  // console.log('balance', balance)
-
-  // const web3 = new Web3(
-  //   new Web3.providers.HttpProvider(
-  //     `https://${network}.infura.io/v3/${ifura_api_key}`
-  //   )
-  // );
-  // let contract = new web3.eth.Contract(JSON.parse(abi), contractAddress);
-  // let amount = data.amount;
-  // let result = contract.methods.transfer(data.receiver, amount).encodeABI();
-  
-  // let txObj  = {
-  //   gas: "0x186A0",
-  //   "to": contractAddress,
-  //   "value": "0x00",
-  //   "data": result,
-  //   "from": coinbaseAddress
-  // }
-
-  // web3.eth.accounts.signTransaction(txObj, privateKey, (err, signedTx) => {
-  //      if (err) {
-  //          return callback(err)
-  //      } else {
-  //          console.log(signedTx)
-  //          return web3.eth.sendSignedTransaction(signedTx.rawTransaction, (err, res) => {
-  //              if (err) {
-  //                  console.log(err)
-  //              } else {
-  //                  console.log(res)
-  //              }
-  //          })
-  //      }
-  // })
-
   res.status(200).json({ transfer: 'ok' })
 }
 
