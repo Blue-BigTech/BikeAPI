@@ -11,6 +11,8 @@
   "author": "bluebigtech",
   "license": "ISC",
   "dependencies": {
+    "@ethereumjs/common": "^3.0.0",
+    "@ethereumjs/tx": "^4.0.0",
     "@maticnetwork/maticjs": "^3.5.0",
     "@maticnetwork/maticjs-web3": "^1.0.2",
     "@truffle/hdwallet-provider": "^2.0.16",
@@ -21,6 +23,8 @@
     "dotenv": "^16.0.3",
     "dotenv-safe": "^8.2.0",
     "ejs": "^3.1.8",
+    "ethereumjs-common": "^1.5.2",
+    "ethereumjs-tx": "^2.1.2",
     "express": "^4.18.1",
     "express-validator": "^6.14.2",
     "net": "^1.0.2",
