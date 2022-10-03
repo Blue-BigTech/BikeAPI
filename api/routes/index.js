@@ -6,9 +6,8 @@ router.post('/test', (req, res) => {
 })
 
 const {validateTransaction} = require('../validators/validateTransaction')
-const {transfer, mint} = require('../controllers/index')
+const {transfer} = require('../controllers/index')
 
-router.get('/transfer', trimRequest.all,validateTransaction, transfer)
-router.get('/mint', trimRequest.all, validateTransaction, mint)
+router.get('/transfer', trimRequest.all, validateTransaction, transfer)
 
 module.exports = router;

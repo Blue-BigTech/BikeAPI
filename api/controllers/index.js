@@ -4,7 +4,6 @@ const { raw } = require('body-parser')
 const Web3 = require('web3')
 const Provider = require('@truffle/hdwallet-provider');
 const BN = require('bn.js')
-// const web3 = new Web3(new Web3.providers.HttpProvider('https://rpc-mumbai.maticvigil.com/'))
 
 const transfer = async (req, res) => {
   const data = matchedData(req)
@@ -30,8 +29,6 @@ const transfer = async (req, res) => {
   const TotalAmount = data.amount;
   const DIST_ATKY = parseInt(TotalAmount * 0.4 / 6);
   const EARN_ATKY = TotalAmount - DIST_ATKY * 6;
-  console.log(EARN_ATKY)
-  console.log(DIST_ATKY)
   const bn_EARN_ATKY = new BN(EARN_ATKY, 10);
   const bn_DIST_ATKY = new BN(DIST_ATKY, 10);
   let bn_EARN = new BN("1000000000000000000").mul(bn_EARN_ATKY)
@@ -51,14 +48,9 @@ const transfer = async (req, res) => {
   console.log(receipt5);
   const receipt6 = await myContract.methods.transfer(TO_ADDR6, bn_DIST).send({ from: COINBASE_ADDR });
   console.log(receipt6);
-  res.status(200).json({ transfer: 'SUCCESS' })
-}
-
-const mint = async (req, res) => {
-  res.status(200).json({ mint: 'ok' })
+  res.status(200).json({ Transfer: 'SUCCESS' })
 }
 
 module.exports = {
-  transfer,
-  mint
+  transfer
 }
